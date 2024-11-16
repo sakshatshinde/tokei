@@ -56,24 +56,6 @@
       </a>
     </li>
     <li>
-      <a href="/about" aria-label="About">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      </a>
-    </li>
-    <li>
       <a href="/settings" aria-label="Settings">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +70,24 @@
       >
     </li>
     <div class="mt-auto">
+      <li>
+        <a href="/about" aria-label="About">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </a>
+      </li>
       <li>
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
