@@ -1,5 +1,6 @@
 <script>
   import MainNavBar from "../components/MainNavBar.svelte";
+  import Screen from "../components/Screen.svelte";
   let { children } = $props();
 </script>
 
@@ -9,6 +10,6 @@
 
   <!-- Main content area that takes remaining width and height -->
   <main class="flex-1 h-full overflow-auto">
-    {@render children()}
+    <Screen>{@render children()}</Screen>
   </main>
 </div>

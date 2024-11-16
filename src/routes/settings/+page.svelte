@@ -1,0 +1,1 @@
+<h1 class="text-xl racking-wide subpixel-antialiased font-bold">Settings</h1>

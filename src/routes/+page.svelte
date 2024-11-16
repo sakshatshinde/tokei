@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Screen from "../components/Screen.svelte";
-
   // let name = "";
   // let greetMsg = "";
 
@@ -11,4 +9,4 @@
   // let selectedTheme = "default";
 </script>
 
-<Screen><div class="font-bold">Main</div></Screen>
+<h1 class="text-xl racking-wide subpixel-antialiased font-bold">Tokei</h1>
