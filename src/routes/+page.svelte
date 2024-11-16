@@ -11,4 +11,4 @@
   // let selectedTheme = "default";
 </script>
 
-<Screen>Main</Screen>
+<Screen><div class="font-bold">Main</div></Screen>

@@ -2,4 +2,4 @@
   import Screen from "../../components/Screen.svelte";
 </script>
 
-<Screen><div>About</div></Screen>
+<Screen><div class="font-bold">About</div></Screen>
