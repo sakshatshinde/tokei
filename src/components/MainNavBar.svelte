@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   // List of available themes
-  const themes = ["retro", "black"];
+  const themes = ["lofi", "black"];
   let currentTheme: string;
 
   onMount(() => {
@@ -15,7 +15,7 @@
       if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
         setTheme("black");
       } else {
-        setTheme("retro");
+        setTheme("lofi");
       }
     }
   });

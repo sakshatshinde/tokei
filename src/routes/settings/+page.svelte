@@ -38,16 +38,14 @@
   }
 </script>
 
-<h1 class="text-2xl tracking-wide subpixel-antialiased font-bold mb-4">
+<h1 class="text-2xl tracking-wide subpixel-antialiased font-semibold mb-4">
   Settings
 </h1>
 
 <div class="form-control w-full max-w-sm">
   <!-- Label -->
   <div class="label flex justify-between items-center">
-    <span class="label-text font-medium"
-      >Please select a root folder for your anime</span
-    >
+    <span class="label-text">Please select a root folder for your anime</span>
   </div>
 
   <!-- Input Group with Unified Outline -->
@@ -55,7 +53,7 @@
     class="flex items-center border dark:border-gray-600 overflow-hidden shadow-sm"
   >
     <!-- Label or Selected Path -->
-    <div class="flex-1 px-3 font-bold">
+    <div class="flex-1 px-3">
       {#if selectedPath}
         {selectedPath}
       {:else}
@@ -64,12 +62,15 @@
     </div>
 
     <!-- Button -->
-    <button class="btn btn-primary rounded-none" on:click={handlePickFolder}>
+    <button
+      class="btn btn-outline btn-sm rounded-none"
+      on:click={handlePickFolder}
+    >
       {#if isSelecting}
         <span class="font-bold loading loading-spinner loading-sm mr-2"></span>
         Selecting...
       {:else}
-        📁
+        📁 Choose a folder
       {/if}
     </button>
   </div>
