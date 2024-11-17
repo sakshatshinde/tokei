@@ -1,4 +1,5 @@
 <script>
+  // @ts-ignore
   import MainNavBar from "../components/MainNavBar.svelte";
   import Screen from "../components/Screen.svelte";
   let { children } = $props();
