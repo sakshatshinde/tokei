@@ -1,5 +1,5 @@
 use libmpv2::Mpv;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 use tauri::{Manager, Window};
 use tauri_plugin_dialog::DialogExt;
 
@@ -24,7 +24,7 @@ fn pick_directory(app_handle: tauri::AppHandle) -> Option<String> {
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            app.manage(PlayerState(Mutex::new(None)));
+            app.manage(PlayerState(Mutex::new(None).into()));
             Ok(())
         })
         .plugin(tauri_plugin_dialog::init())
@@ -40,7 +40,7 @@ pub fn run() {
         .expect("error while running tauri application");
 }
 
-struct PlayerState(Mutex<Option<Mpv>>);
+struct PlayerState(Arc<Mutex<Option<Mpv>>>);
 
 #[tauri::command]
 async fn init_player(
@@ -54,26 +54,34 @@ async fn init_player(
 
     let mpv = Mpv::new().map_err(|e| e.to_string())?;
 
+    let state_clone = state.0.clone(); // Clone the Arc for use in the closure
+    let close_handler = move |event: &tauri::WindowEvent| {
+        match event {
+            tauri::WindowEvent::CloseRequested { .. } => {
+                if let Ok(mut guard) = state_clone.lock() {
+                    if let Some(mpv) = guard.take() {
+                        let _ = mpv.command("quit", &[]);
+                    }
+                }
+            }
+            _ => {}
+        };
+    };
+
+    video_window.on_window_event(close_handler);
+
     // Enable ALL UI elements
-    // mpv.set_property("osc", "yes").map_err(|e| e.to_string())?;
+    // mpv.set_property("osc", "true").map_err(|e| e.to_string())?;
     // mpv.set_property("osd-bar", "yes")
     //     .map_err(|e| e.to_string())?;
     mpv.set_property("osd-level", "3")
         .map_err(|e| e.to_string())?;
 
-    // // Input settings
+    // Input settings
     mpv.set_property("input-default-bindings", "yes")
         .map_err(|e| e.to_string())?;
     mpv.set_property("input-vo-keyboard", "yes")
         .map_err(|e| e.to_string())?;
-
-    // OSC settings
-    // mpv.set_property("osc-layout", "bottombar")
-    //     .map_err(|e| e.to_string())?;
-    // mpv.set_property("osc-seekbar-size", "20")
-    //     .map_err(|e| e.to_string())?;
-    // mpv.set_property("osc-visibility", "always")
-    //     .map_err(|e| e.to_string())?;
 
     mpv.set_property("vo", "gpu-next")
         .map_err(|e| e.to_string())?;
