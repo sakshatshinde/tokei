@@ -1,6 +1,6 @@
 use libmpv2::Mpv;
 use std::sync::Mutex;
-use tauri::Manager;
+use tauri::{Manager, Window};
 use tauri_plugin_dialog::DialogExt;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -44,43 +44,61 @@ struct PlayerState(Mutex<Option<Mpv>>);
 
 #[tauri::command]
 async fn init_player(
-    window: tauri::Window,
+    app: tauri::AppHandle,
     state: tauri::State<'_, PlayerState>,
 ) -> Result<(), String> {
+    let video_window = Window::builder(&app, "video")
+        .title("mpv")
+        .build()
+        .map_err(|e| e.to_string())?;
+
     let mpv = Mpv::new().map_err(|e| e.to_string())?;
 
-    // Use higher-level methods to set properties
+    // Enable ALL UI elements
+    // mpv.set_property("osc", "yes").map_err(|e| e.to_string())?;
+    // mpv.set_property("osd-bar", "yes")
+    //     .map_err(|e| e.to_string())?;
+    mpv.set_property("osd-level", "3")
+        .map_err(|e| e.to_string())?;
+
+    // // Input settings
+    mpv.set_property("input-default-bindings", "yes")
+        .map_err(|e| e.to_string())?;
+    mpv.set_property("input-vo-keyboard", "yes")
+        .map_err(|e| e.to_string())?;
+
+    // OSC settings
+    // mpv.set_property("osc-layout", "bottombar")
+    //     .map_err(|e| e.to_string())?;
+    // mpv.set_property("osc-seekbar-size", "20")
+    //     .map_err(|e| e.to_string())?;
+    // mpv.set_property("osc-visibility", "always")
+    //     .map_err(|e| e.to_string())?;
+
     mpv.set_property("vo", "gpu").map_err(|e| e.to_string())?;
     mpv.set_property("hwdec", "no").map_err(|e| e.to_string())?;
+
     // ! For some reason using this causes mpv to not load?
     // mpv.set_property("log-file", "internal_mpv.log")
     //     .map_err(|e| e.to_string())?;
     // mpv.set_property("v", "1").map_err(|e| e.to_string())?; // Verbose logging to help debug
 
-    // Initialize player with video container (you may want to specify a container ID)
-    // mpv.set_property("video-container", "videoContainer")
-    //     .map_err(|e| e.to_string())?;
-
-    // Pass window handle (same as before)
-
     #[cfg(target_os = "windows")]
     let handle = {
-        let hwnd = window.hwnd().map_err(|e| e.to_string())?;
+        let hwnd = video_window.hwnd().map_err(|e| e.to_string())?;
         hwnd.0 as *mut std::ffi::c_void as i64
     };
 
     #[cfg(target_os = "linux")]
-    let handle = window.xid().map_err(|e| e.to_string())? as i64;
+    let handle = video_window.xid().map_err(|e| e.to_string())? as i64;
 
     #[cfg(target_os = "macos")]
     let handle = unsafe {
-        let ns_window = window.ns_window().map_err(|e| e.to_string())?;
+        let ns_window = video_window.ns_window().map_err(|e| e.to_string())?;
         ns_window as i64
     };
 
     mpv.set_property("wid", handle).map_err(|e| e.to_string())?;
-    // mpv.set_property("wid", container_id)
-    //     .map_err(|e| e.to_string())?;
 
     *state.0.lock().unwrap() = Some(mpv);
     Ok(())
@@ -99,12 +117,12 @@ async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Resul
 
 #[tauri::command]
 async fn toggle_pause(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
-    let guard = state.0.lock().unwrap();
-    let mpv = guard.as_ref().ok_or("MPV not initialized")?;
-    let paused: bool = mpv.get_property("pause").map_err(|e| e.to_string())?;
+    // let guard = state.0.lock().unwrap();
+    // let mpv = guard.as_ref().ok_or("MPV not initialized")?;
+    // let paused: bool = mpv.get_property("pause").map_err(|e| e.to_string())?;
 
-    mpv.set_property("pause", !paused)
-        .map_err(|e| e.to_string())?;
+    // mpv.set_property("pause", !paused)
+    //     .map_err(|e| e.to_string())?;
 
     Ok(())
 }
