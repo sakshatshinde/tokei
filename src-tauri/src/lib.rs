@@ -47,12 +47,31 @@ async fn init_player(
     app: tauri::AppHandle,
     state: tauri::State<'_, PlayerState>,
 ) -> Result<(), String> {
-    let video_window = Window::builder(&app, "video")
+    let video_window = Window::builder(&app, "mpv_window")
         .title("mpv")
+        .focused(true)
+        // .fullscreen(true)
+        // .shadow(false)
         .build()
         .map_err(|e| e.to_string())?;
 
+    #[cfg(target_os = "windows")]
+    let handle = {
+        let hwnd = video_window.hwnd().map_err(|e| e.to_string())?;
+        hwnd.0 as *mut std::ffi::c_void as i64
+    };
+
+    #[cfg(target_os = "linux")]
+    let handle = video_window.xid().map_err(|e| e.to_string())? as i64;
+
+    #[cfg(target_os = "macos")]
+    let handle = unsafe {
+        let ns_window = video_window.ns_window().map_err(|e| e.to_string())?;
+        ns_window as i64
+    };
+
     let mpv = Mpv::new().map_err(|e| e.to_string())?;
+    mpv.set_property("wid", handle).map_err(|e| e.to_string())?;
 
     let state_clone = state.0.clone(); // Clone the Arc for use in the closure
     let close_handler = move |event: &tauri::WindowEvent| {
@@ -71,10 +90,11 @@ async fn init_player(
     video_window.on_window_event(close_handler);
 
     // Enable ALL UI elements
-    // mpv.set_property("osc", "true").map_err(|e| e.to_string())?;
-    // mpv.set_property("osd-bar", "yes")
-    //     .map_err(|e| e.to_string())?;
-    mpv.set_property("osd-level", "3")
+    mpv.set_property("osc", "yes").map_err(|e| e.to_string())?;
+
+    mpv.set_property("osd-bar", "yes")
+        .map_err(|e| e.to_string())?;
+    mpv.set_property("osd-level", "2")
         .map_err(|e| e.to_string())?;
 
     // Input settings
@@ -88,28 +108,11 @@ async fn init_player(
     mpv.set_property("hwdec", "no").map_err(|e| e.to_string())?;
 
     // ! For some reason using this causes mpv to not load?
-    // mpv.set_property("log-file", "internal_mpv.log")
-    //     .map_err(|e| e.to_string())?;
-    // mpv.set_property("v", "1").map_err(|e| e.to_string())?; // Verbose logging to help debug
-
-    #[cfg(target_os = "windows")]
-    let handle = {
-        let hwnd = video_window.hwnd().map_err(|e| e.to_string())?;
-        hwnd.0 as *mut std::ffi::c_void as i64
-    };
-
-    #[cfg(target_os = "linux")]
-    let handle = video_window.xid().map_err(|e| e.to_string())? as i64;
-
-    #[cfg(target_os = "macos")]
-    let handle = unsafe {
-        let ns_window = video_window.ns_window().map_err(|e| e.to_string())?;
-        ns_window as i64
-    };
-
-    mpv.set_property("wid", handle).map_err(|e| e.to_string())?;
+    mpv.set_property("log-file", "internal_mpv.log")
+        .map_err(|e| e.to_string())?;
 
     *state.0.lock().unwrap() = Some(mpv);
+
     Ok(())
 }
 
@@ -132,6 +135,8 @@ async fn toggle_pause(state: tauri::State<'_, PlayerState>) -> Result<(), String
 
     mpv.set_property("pause", !paused)
         .map_err(|e| e.to_string())?;
+
+    mpv.set_property("osc", "yes").map_err(|e| e.to_string())?;
 
     Ok(())
 }
