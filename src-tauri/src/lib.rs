@@ -75,7 +75,8 @@ async fn init_player(
     // mpv.set_property("osc-visibility", "always")
     //     .map_err(|e| e.to_string())?;
 
-    mpv.set_property("vo", "gpu").map_err(|e| e.to_string())?;
+    mpv.set_property("vo", "gpu-next")
+        .map_err(|e| e.to_string())?;
     mpv.set_property("hwdec", "no").map_err(|e| e.to_string())?;
 
     // ! For some reason using this causes mpv to not load?
