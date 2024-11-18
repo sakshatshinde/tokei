@@ -117,12 +117,12 @@ async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Resul
 
 #[tauri::command]
 async fn toggle_pause(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
-    // let guard = state.0.lock().unwrap();
-    // let mpv = guard.as_ref().ok_or("MPV not initialized")?;
-    // let paused: bool = mpv.get_property("pause").map_err(|e| e.to_string())?;
+    let guard = state.0.lock().unwrap();
+    let mpv = guard.as_ref().ok_or("MPV not initialized")?;
+    let paused: bool = mpv.get_property("pause").map_err(|e| e.to_string())?;
 
-    // mpv.set_property("pause", !paused)
-    //     .map_err(|e| e.to_string())?;
+    mpv.set_property("pause", !paused)
+        .map_err(|e| e.to_string())?;
 
     Ok(())
 }
