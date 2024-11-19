@@ -3,12 +3,6 @@ use std::sync::{Arc, Mutex};
 use tauri::{Manager, Window};
 use tauri_plugin_dialog::DialogExt;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust and Tauri!", name)
-}
-
 #[tauri::command]
 fn pick_directory(app_handle: tauri::AppHandle) -> Option<String> {
     let (tx, rx) = std::sync::mpsc::channel();
@@ -30,7 +24,6 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
-            greet,
             pick_directory,
             init_player,
             play_media,
@@ -50,9 +43,15 @@ async fn init_player(
     let video_window = Window::builder(&app, "mpv_window")
         .title("mpv")
         .focused(true)
+        .transparent(false)
+        .decorations(true)
         // .fullscreen(true)
         // .shadow(false)
         .build()
+        .map_err(|e| e.to_string())?;
+
+    video_window
+        .set_ignore_cursor_events(false)
         .map_err(|e| e.to_string())?;
 
     #[cfg(target_os = "windows")]
@@ -101,6 +100,10 @@ async fn init_player(
     mpv.set_property("input-default-bindings", "yes")
         .map_err(|e| e.to_string())?;
     mpv.set_property("input-vo-keyboard", "yes")
+        .map_err(|e| e.to_string())?;
+    mpv.set_property("input-cursor", "yes")
+        .map_err(|e| e.to_string())?;
+    mpv.set_property("cursor-autohide", "no")
         .map_err(|e| e.to_string())?;
 
     mpv.set_property("vo", "gpu-next")
