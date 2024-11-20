@@ -1,6 +1,6 @@
 use libmpv2::Mpv;
 use std::sync::{Arc, Mutex};
-use tauri::{AppHandle, Listener, Manager, PhysicalSize, WebviewBuilder, Window};
+use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
 
 #[tauri::command]
@@ -78,7 +78,9 @@ async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Resul
     let guard = state.0.lock().unwrap();
     let mpv = guard.as_ref().ok_or("MPV not initialized")?;
 
-    mpv.command("loadfile", &[&path])
+    let quoted_path = format!("\"{}\"", path);
+
+    mpv.command("loadfile", &[&quoted_path, "append-play"])
         .map_err(|e| e.to_string())?;
 
     Ok(())

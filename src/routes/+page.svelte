@@ -11,5 +11,3 @@
   // let selectedTheme = "default";
   let videoSource: string = "D:/Videos/Sinderella/105-min-1-hi.mp4";
 </script>
-
-<VideoPlayer />

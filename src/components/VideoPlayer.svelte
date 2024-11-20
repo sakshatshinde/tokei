@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { invoke } from "@tauri-apps/api/core";
 
-  export let src: string | undefined = "D:/Downloads/bun33s.mp4";
+  export let src: string | undefined;
 
   async function initPlayer() {
     try {
@@ -18,6 +18,11 @@
 
   async function playMedia(path: string) {
     try {
+      if (!path) {
+        console.error("No valid file path provided.");
+        return;
+      }
+      console.log("Attempting to play media from:", path);
       await invoke("play_media", { path });
     } catch (error) {
       console.error("Failed to play media:", error);
