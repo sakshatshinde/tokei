@@ -1,6 +1,9 @@
-# Tauri + SvelteKit + TypeScript
+# Tokei
 
-This template should help get you started developing with Tauri, SvelteKit and TypeScript in Vite.
+- Download the libmpv dlls from here https://github.com/shinchiro/mpv-winbuild-cmake/releases
+- Configure the path in `build.rs`
+- Run `npm install`
+- Run `npm run tauri dev`
 
 ## Recommended IDE Setup
 
