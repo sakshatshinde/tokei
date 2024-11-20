@@ -1,13 +1,20 @@
 <script lang="ts">
-  import VideoPlayer from "../components/VideoPlayer.svelte";
-
-  // let name = "";
-  // let greetMsg = "";
-
-  // async function greet() {
-  //   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  //   greetMsg = await invoke("greet", { name });
-
-  // let selectedTheme = "default";
-  let videoSource: string = "D:/Videos/Sinderella/105-min-1-hi.mp4";
 </script>
+
+<h1 class="text-2xl font-semibold">Continue watching ...</h1>
+<div class="divider"></div>
+<div class="card glass w-96">
+  <figure>
+    <img
+      src="https://platform.polygon.com/wp-content/uploads/sites/2/2024/08/filters_quality95formatwebp.webp"
+      alt="car!"
+    />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">Anime Name</h2>
+    <p>Episode Name and Number</p>
+    <div class="card-actions justify-end">
+      <button class="btn btn-outline">Watch Now!</button>
+    </div>
+  </div>
+</div>
