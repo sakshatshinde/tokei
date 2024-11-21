@@ -7,6 +7,7 @@
 
   let selectedPath: string;
   let error: string;
+  let errorhandleQuitPlayer: string;
   let isSelecting = false;
 
   onMount(() => {
@@ -17,6 +18,16 @@
       selectedPath = "";
     }
   });
+
+  async function handleQuitPlayer() {
+    try {
+      await invoke<string>("quit_player");
+    } catch (e) {
+      errorhandleQuitPlayer =
+        e instanceof Error ? e.message : "mpv doesn't want to quit :/";
+      console.error("Error picking folder:", e);
+    }
+  }
 
   async function handlePickFolder() {
     isSelecting = true;
@@ -42,11 +53,15 @@
   Settings
 </h1>
 
+<h1 class="text-l tracking-wide subpixel-antialiased font-semibold mb-4">
+  Misc
+</h1>
+
 <div class="form-control w-full max-w-sm">
   <!-- Label -->
-  <div class="label flex justify-between items-center">
-    <span class="label-text">Please select a root folder for your anime</span>
-  </div>
+
+  <span class="label-text mb-2">Please select a root folder for your anime</span
+  >
 
   <!-- Input Group with Unified Outline -->
   <div
@@ -62,10 +77,7 @@
     </div>
 
     <!-- Button -->
-    <button
-      class="btn btn-outline btn-sm rounded-none"
-      on:click={handlePickFolder}
-    >
+    <button class="btn btn-outline btn-sm" on:click={handlePickFolder}>
       {#if isSelecting}
         <span class="font-bold loading loading-spinner loading-sm mr-2"></span>
         Selecting...
@@ -78,5 +90,23 @@
   <!-- Error Message -->
   {#if error}
     <span class="label-text-alt text-error text-sm">{error}</span>
+  {/if}
+</div>
+
+<!-- <div class="divider divider-accent"></div> -->
+
+<div>
+  <h1 class="text-l tracking-wide subpixel-antialiased font-semibold mb-4 mt-8">
+    mpv
+  </h1>
+  <button class="btn btn-outline btn-sm" on:click={handleQuitPlayer}>
+    Force close mpv</button
+  >
+
+  <!-- Error Message -->
+  {#if errorhandleQuitPlayer}
+    <span class="label-text-alt text-error font-bold text-sm p-2"
+      >{errorhandleQuitPlayer}</span
+    >
   {/if}
 </div>

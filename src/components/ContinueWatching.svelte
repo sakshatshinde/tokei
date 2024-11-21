@@ -14,7 +14,7 @@
   const dummyShows: Show[] = [
     {
       id: "show1",
-      title: "Cyberpunk: Edgerunners",
+      title: "Toradora",
       Season: "1",
       posterUrl: "https://pic.re/image",
       totalEpisodes: 10,
@@ -52,7 +52,7 @@
 <div class="flex flex-wrap gap-4">
   {#each dummyShows as show}
     <div
-      class="card max-w-80 max-h-80 shadow-xl glass hover:scale-105 transition-transform duration-300"
+      class="card max-w-80 max-h-80 shadow-xl glass hover:scale-105 will-change-transform transform transition duration-200"
     >
       <figure>
         <img src={show.posterUrl} alt={show.title} />

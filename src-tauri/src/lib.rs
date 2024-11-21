@@ -27,6 +27,7 @@ pub fn run() {
             pick_directory,
             init_player,
             play_media,
+            quit_player
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -67,8 +68,8 @@ async fn init_player(state: tauri::State<'_, PlayerState>) -> Result<(), String>
     mpv.set_property("log-file", "internal_mpv.log")
         .map_err(|e| e.to_string())?;
 
-    // ! Currently this leaves a dangling pointer when mpv window is closed
-    *state.0.lock().unwrap() = Some(mpv);
+    let mut guard = state.0.lock().unwrap();
+    *guard = Some(mpv);
 
     Ok(())
 }
@@ -85,3 +86,18 @@ async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Resul
 
     Ok(())
 }
+
+#[tauri::command]
+async fn quit_player(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
+    if let Ok(mut guard) = state.0.lock() {
+        if let Some(mpv) = guard.take() {
+            let _ = mpv.command("quit", &[]); // Explicitly quit MPV
+            return Ok(());
+        }
+    }
+    Err("MPV cleanup failed".to_string())
+}
+
+// async fn return_anime_list() {
+//     todo!()
+// }
