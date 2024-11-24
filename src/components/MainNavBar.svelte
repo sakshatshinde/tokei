@@ -69,7 +69,6 @@
         ></a
       >
     </li>
-
     <li>
       <a href="/anilist" aria-label="Anilist">
         <svg
@@ -87,6 +86,16 @@
             fill="currentColor"
           />
         </svg>
+      </a>
+    </li>
+    <li>
+      <a href="/subsplease" aria-label="Subsplease">
+        <span class="font-semibold">SP</span>
+      </a>
+    </li>
+    <li>
+      <a href="/nyaa" aria-label="Nyaa">
+        <span class="font-semibold">N</span>
       </a>
     </li>
     <div class="mt-auto">

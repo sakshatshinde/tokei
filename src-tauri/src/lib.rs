@@ -1,6 +1,6 @@
 use libmpv2::Mpv;
 use std::sync::{Arc, Mutex};
-use tauri::Manager;
+use tauri::{Manager, Url};
 use tauri_plugin_dialog::DialogExt;
 
 #[tauri::command]
@@ -27,7 +27,10 @@ pub fn run() {
             pick_directory,
             init_player,
             quit_player,
-            watch_player_shutdown
+            watch_player_shutdown,
+            create_anilist_window,
+            create_subsplease_window,
+            create_nyaa_window,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -125,6 +128,51 @@ async fn watch_player_shutdown(state: tauri::State<'_, PlayerState>) -> Result<(
             return Ok(());
         }
     }
+}
+
+#[tauri::command]
+async fn create_anilist_window(app_handle: tauri::AppHandle) -> Result<(), String> {
+    let _anilist_window = tauri::WebviewWindowBuilder::new(
+        &app_handle,
+        "anilist_window".to_string(),
+        tauri::WebviewUrl::External(Url::parse("https://anilist.co/home").unwrap()),
+    )
+    .min_inner_size(1280., 720.)
+    .title("Tokei - Anilist")
+    .build()
+    .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn create_subsplease_window(app_handle: tauri::AppHandle) -> Result<(), String> {
+    let _subsplease_window = tauri::WebviewWindowBuilder::new(
+        &app_handle,
+        "subsplease_window".to_string(),
+        tauri::WebviewUrl::External(Url::parse("https://subsplease.org/").unwrap()),
+    )
+    .min_inner_size(1280., 720.)
+    .title("Tokei - Subsplease")
+    .build()
+    .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn create_nyaa_window(app_handle: tauri::AppHandle) -> Result<(), String> {
+    let _nyaa_window = tauri::WebviewWindowBuilder::new(
+        &app_handle,
+        "nyaa_window".to_string(),
+        tauri::WebviewUrl::External(Url::parse("https://nyaa.si/").unwrap()),
+    )
+    .min_inner_size(1280., 720.)
+    .title("Tokei - Nyaa :3")
+    .build()
+    .map_err(|e| e.to_string())?;
+
+    Ok(())
 }
 
 // async fn return_anime_list() {
