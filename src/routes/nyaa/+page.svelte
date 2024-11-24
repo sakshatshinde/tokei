@@ -15,7 +15,7 @@
   });
 </script>
 
-<div class="hero min-h-screen bg-black">
+<div class="hero h-full">
   <div class="hero-content text-center">
     <div class="max-w-2xl px-6">
       <div class="flex justify-center">
@@ -31,13 +31,9 @@
           ></path></svg
         >
       </div>
-      <h1 class="text-6xl font-bold mb-6 text-white tracking-tight">
-        Nyaa Purred
-      </h1>
-      <div
-        class="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6 border border-white/20"
-      >
-        <h2 class="text-2xl font-medium text-gray-300 tracking-wide">
+      <h1 class="text-6xl font-bold mb-6 tracking-tight">Nyaa Purred</h1>
+      <div class="backdrop-blur-sm p-4 mb-6 border">
+        <h2 class="text-2xl font-medium tracking-wide">
           Please use the newly launched Nyaa window
         </h2>
       </div>
