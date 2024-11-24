@@ -95,7 +95,8 @@
     </li>
     <li>
       <a href="/nyaa" aria-label="Nyaa">
-        <span class="font-semibold">N</span>
+        <!-- <span class="font-semibold">N</span> -->
+        <img src="https://i.imgur.com/TKkz0qM.png" alt="N" class="h-5 w-5" />
       </a>
     </li>
     <div class="mt-auto">
