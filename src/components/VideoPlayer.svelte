@@ -4,13 +4,10 @@
 
   export let src: string | undefined;
 
-  async function initPlayer() {
+  async function initPlayer(path: string) {
     try {
       // Pass the container_id properly
-      await invoke("init_player");
-      if (src) {
-        await playMedia(src);
-      }
+      await invoke("init_player", { path });
     } catch (error) {
       console.error("Failed to initialize MPV:", error);
     }
@@ -24,30 +21,14 @@
     }
   }
 
-  async function playMedia(path: string) {
-    try {
-      if (!path) {
-        console.error("No valid file path provided.");
-        return;
-      }
-      console.log("Attempting to play media from:", path);
-      await invoke("play_media", { path });
-    } catch (error) {
-      console.error("Failed to play media:", error);
-    }
-  }
-
   onMount(async () => {
-    await initPlayer();
+    if (src) {
+      await initPlayer(src);
+    }
     await watchPlayerShutdown();
   });
 
   onDestroy(() => {
     // Cleanup if needed
   });
-
-  // Watch for src changes
-  $: if (src) {
-    playMedia(src);
-  }
 </script>

@@ -26,7 +26,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             pick_directory,
             init_player,
-            play_media,
             quit_player,
             watch_player_shutdown
         ])
@@ -47,7 +46,7 @@ impl Drop for PlayerState {
 }
 
 #[tauri::command]
-async fn init_player(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
+async fn init_player(path: String, state: tauri::State<'_, PlayerState>) -> Result<(), String> {
     let mpv = Mpv::new().map_err(|e| e.to_string())?;
 
     // On Screen controls
@@ -69,23 +68,12 @@ async fn init_player(state: tauri::State<'_, PlayerState>) -> Result<(), String>
     mpv.set_property("log-file", "internal_mpv.log")
         .map_err(|e| e.to_string())?;
 
-    let mut guard = state.0.lock().unwrap();
-    *guard = Some(mpv);
-
-    Ok(())
-}
-
-#[tauri::command]
-async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Result<(), String> {
-    let guard = state.0.lock().unwrap();
-    let mpv = guard
-        .as_ref()
-        .ok_or("Failed in `play_media` MPV not initialized")?;
-
     let quoted_path = format!("\"{}\"", path);
-
     mpv.command("loadfile", &[&quoted_path, "append-play"])
         .map_err(|e| e.to_string())?;
+
+    let mut guard = state.0.lock().unwrap();
+    *guard = Some(mpv);
 
     Ok(())
 }
@@ -100,10 +88,6 @@ async fn quit_player(state: tauri::State<'_, PlayerState>) -> Result<(), String>
     }
     Err("MPV cleanup failed".to_string())
 }
-
-// async fn return_anime_list() {
-//     todo!()
-// }
 
 #[tauri::command]
 async fn watch_player_shutdown(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
@@ -142,3 +126,7 @@ async fn watch_player_shutdown(state: tauri::State<'_, PlayerState>) -> Result<(
         }
     }
 }
+
+// async fn return_anime_list() {
+//     todo!()
+// }
