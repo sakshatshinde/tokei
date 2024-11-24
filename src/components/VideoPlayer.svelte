@@ -16,6 +16,14 @@
     }
   }
 
+  async function watchPlayerShutdown() {
+    try {
+      await invoke("watch_player_shutdown");
+    } catch (error) {
+      console.error("Watching the player shutdown failed:", error);
+    }
+  }
+
   async function playMedia(path: string) {
     try {
       if (!path) {
@@ -31,6 +39,7 @@
 
   onMount(async () => {
     await initPlayer();
+    await watchPlayerShutdown();
   });
 
   onDestroy(() => {

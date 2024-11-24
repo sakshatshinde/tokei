@@ -27,7 +27,8 @@ pub fn run() {
             pick_directory,
             init_player,
             play_media,
-            quit_player
+            quit_player,
+            watch_player_shutdown
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -77,7 +78,9 @@ async fn init_player(state: tauri::State<'_, PlayerState>) -> Result<(), String>
 #[tauri::command]
 async fn play_media(path: String, state: tauri::State<'_, PlayerState>) -> Result<(), String> {
     let guard = state.0.lock().unwrap();
-    let mpv = guard.as_ref().ok_or("MPV not initialized")?;
+    let mpv = guard
+        .as_ref()
+        .ok_or("Failed in `play_media` MPV not initialized")?;
 
     let quoted_path = format!("\"{}\"", path);
 
@@ -101,3 +104,41 @@ async fn quit_player(state: tauri::State<'_, PlayerState>) -> Result<(), String>
 // async fn return_anime_list() {
 //     todo!()
 // }
+
+#[tauri::command]
+async fn watch_player_shutdown(state: tauri::State<'_, PlayerState>) -> Result<(), String> {
+    // Initial check for MPV existence
+    {
+        let guard = state.0.lock().unwrap();
+        if guard.as_ref().is_none() {
+            return Err("MPV state check ran before mpv was launched".to_string());
+        }
+    }
+
+    loop {
+        let should_shutdown = {
+            let mut guard = state.0.lock().unwrap();
+            if let Some(ref mut mpv) = *guard {
+                if let Some(event) = mpv.event_context_mut().wait_event(0.0) {
+                    match event.unwrap() {
+                        libmpv2::events::Event::Shutdown => true,
+                        _ => false,
+                    }
+                } else {
+                    false
+                }
+            } else {
+                return Ok(()); // MPV was cleaned up elsewhere
+            }
+        };
+
+        if should_shutdown {
+            if let Ok(mut guard) = state.0.lock() {
+                if let Some(mpv) = guard.take() {
+                    let _ = mpv.command("quit", &[]);
+                }
+            }
+            return Ok(());
+        }
+    }
+}
