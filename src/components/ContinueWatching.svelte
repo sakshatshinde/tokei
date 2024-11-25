@@ -75,7 +75,7 @@
   .card {
     position: relative;
     display: card;
-    width: 24rem;
+    /* width: 24rem; */
     image-resolution: full;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -88,12 +88,6 @@
   }
 
   .card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background: radial-gradient(
       circle at top left,
       rgba(255, 255, 255, 0.3),
@@ -108,13 +102,6 @@
   }
 
   .card-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
     justify-content: flex-end;
     padding: 1rem;
     background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
