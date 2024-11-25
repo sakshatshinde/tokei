@@ -58,7 +58,7 @@
         <img src={show.posterUrl} alt={show.title} class="opacity-100" />
       </figure>
       <div class="card-body card-info">
-        <h2 class="card-title p-2 font-bold justify-end">{show.title}</h2>
+        <h2 class="card-title font-bold justify-end">{show.title}</h2>
         <div class="card-actions justify-end">
           {#if show.lastWatchedEpisode.episodeNumber !== null}
             <div class="badge justify-end font-bold">
