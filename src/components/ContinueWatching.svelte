@@ -47,40 +47,82 @@
   }
 </script>
 
-<h1 class="text-2xl font-bold mb-4">Continue Watching</h1>
+<h1 class="text-2xl mb-4 font-semibold">Continue watching</h1>
 
-<div class="flex flex-wrap gap-4">
+<div class="flex flex-wrap gap-4 p-2">
   {#each dummyShows as show}
     <div
-      class="card max-w-80 max-h-80 shadow-xl glass hover:scale-105 will-change-transform transform transition duration-200"
+      class="card image-full w-96 shadow-xl hover:scale-105 will-change-transform transform transition duration-200"
     >
       <figure>
-        <img src={show.posterUrl} alt={show.title} />
+        <img src={show.posterUrl} alt={show.title} class="opacity-100" />
       </figure>
-      <div class="card-body">
-        <span class="card-title my-1 font-semibold">
-          {show.title}
-        </span>
-
-        <div class="card-actions">
-          <div class="flex items-center">
-            <button
-              class="btn btn-outline btn-sm mr-2"
-              on:click={() => resumeShow(show)}
-            >
-              Resume
-            </button>
-            {#if show.lastWatchedEpisode.episodeNumber !== null}
-              <div class="card-actions justify-end">
-                <p class="mr-40"></p>
-                <div class="badge badge-secondary p-2 justify-end">
-                  S{show.Season} | EP{show.lastWatchedEpisode.episodeNumber + 1}
-                </div>
-              </div>
-            {/if}
-          </div>
+      <div class="card-body card-info">
+        <h2 class="card-title p-2 font-bold justify-end">{show.title}</h2>
+        <div class="card-actions justify-end">
+          {#if show.lastWatchedEpisode.episodeNumber !== null}
+            <div class="badge justify-end font-bold">
+              S{show.Season} | EP{show.lastWatchedEpisode.episodeNumber + 1}
+            </div>
+          {/if}
         </div>
       </div>
     </div>
   {/each}
 </div>
+
+<style>
+  .card {
+    position: relative;
+    display: card;
+    width: 24rem;
+    image-resolution: full;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.3),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  .card-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    opacity: 1;
+  }
+</style>
