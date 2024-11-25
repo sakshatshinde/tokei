@@ -1,3 +1,6 @@
+# Tokei
+
+Your ultimate window to all things anime
 
 ## Dev env setup
 
@@ -19,3 +22,5 @@ cd tokei/
 npm install
 npm run tauri dev
 ```
+
+
