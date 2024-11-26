@@ -99,6 +99,12 @@
         <img src="https://i.imgur.com/TKkz0qM.png" alt="N" class="h-5 w-5" />
       </a>
     </li>
+    <li>
+      <a href="/seadex" aria-label="Seadex">
+        <!-- <span class="font-semibold">N</span> -->
+        <img src="https://releases.moe/favicon.png" alt="S" class="h-5 w-5" />
+      </a>
+    </li>
     <div class="mt-auto">
       <li>
         <a href="/about" aria-label="About">

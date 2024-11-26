@@ -17,8 +17,8 @@
 
 <!-- Iframe goes here -->
 <iframe
-  id="nyaa-iframe"
-  title="Nyaa"
+  id="subsplease-iframe"
+  title="Subsplease"
   src="https://subsplease.org"
   class="h-full w-full border-none"
 ></iframe>
