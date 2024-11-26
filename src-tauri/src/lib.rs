@@ -28,9 +28,7 @@ pub fn run() {
             init_player,
             quit_player,
             watch_player_shutdown,
-            create_anilist_window,
-            create_subsplease_window,
-            create_nyaa_window,
+            create_anilist_window
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -145,35 +143,35 @@ async fn create_anilist_window(app_handle: tauri::AppHandle) -> Result<(), Strin
     Ok(())
 }
 
-#[tauri::command]
-async fn create_subsplease_window(app_handle: tauri::AppHandle) -> Result<(), String> {
-    let _subsplease_window = tauri::WebviewWindowBuilder::new(
-        &app_handle,
-        "subsplease_window".to_string(),
-        tauri::WebviewUrl::External(Url::parse("https://subsplease.org/").unwrap()),
-    )
-    .min_inner_size(1280., 720.)
-    .title("Tokei - Subsplease")
-    .build()
-    .map_err(|e| e.to_string())?;
+// #[tauri::command]
+// async fn create_subsplease_window(app_handle: tauri::AppHandle) -> Result<(), String> {
+//     let _subsplease_window = tauri::WebviewWindowBuilder::new(
+//         &app_handle,
+//         "subsplease_window".to_string(),
+//         tauri::WebviewUrl::External(Url::parse("https://subsplease.org/").unwrap()),
+//     )
+//     .min_inner_size(1280., 720.)
+//     .title("Tokei - Subsplease")
+//     .build()
+//     .map_err(|e| e.to_string())?;
 
-    Ok(())
-}
+//     Ok(())
+// }
 
-#[tauri::command]
-async fn create_nyaa_window(app_handle: tauri::AppHandle) -> Result<(), String> {
-    let _nyaa_window = tauri::WebviewWindowBuilder::new(
-        &app_handle,
-        "nyaa_window".to_string(),
-        tauri::WebviewUrl::External(Url::parse("https://nyaa.si/").unwrap()),
-    )
-    .min_inner_size(1280., 720.)
-    .title("Tokei - Nyaa :3")
-    .build()
-    .map_err(|e| e.to_string())?;
+// #[tauri::command]
+// async fn create_nyaa_window(app_handle: tauri::AppHandle) -> Result<(), String> {
+//     let _nyaa_window = tauri::WebviewWindowBuilder::new(
+//         &app_handle,
+//         "nyaa_window".to_string(),
+//         tauri::WebviewUrl::External(Url::parse("https://nyaa.si/").unwrap()),
+//     )
+//     .min_inner_size(1280., 720.)
+//     .title("Tokei - Nyaa :3")
+//     .build()
+//     .map_err(|e| e.to_string())?;
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 // async fn return_anime_list() {
 //     todo!()

@@ -1,21 +1,29 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/core";
-  import { onMount } from "svelte";
+  // import { invoke } from "@tauri-apps/api/core";
+  // import { onMount } from "svelte";
 
-  async function createSubspleaseWindow() {
-    try {
-      await invoke("create_subsplease_window");
-    } catch (error) {
-      console.error("Failed to create tokie - subsplease window:", error);
-    }
-  }
+  // async function createSubspleaseWindow() {
+  //   try {
+  //     await invoke("create_subsplease_window");
+  //   } catch (error) {
+  //     console.error("Failed to create tokie - subsplease window:", error);
+  //   }
+  // }
 
-  onMount(async () => {
-    await createSubspleaseWindow();
-  });
+  // onMount(async () => {
+  //   await createSubspleaseWindow();
+  // });
 </script>
 
-<div class="hero h-full">
+<!-- Iframe goes here -->
+<iframe
+  id="nyaa-iframe"
+  title="Nyaa"
+  src="https://subsplease.org"
+  class="h-full w-full border-none"
+></iframe>
+
+<!-- <div class="hero h-full">
   <div class="hero-content text-center">
     <div class="max-w-2xl px-6">
       <h1 class="text-6xl font-bold mb-6 tracking-tight">
@@ -31,4 +39,4 @@
       </p>
     </div>
   </div>
-</div>
+</div> -->

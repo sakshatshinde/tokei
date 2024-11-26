@@ -1,21 +1,29 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/core";
-  import { onMount } from "svelte";
+  // import { invoke } from "@tauri-apps/api/core";
+  // import { onMount } from "svelte";
 
-  async function createNyaaWindow() {
-    try {
-      await invoke("create_nyaa_window");
-    } catch (error) {
-      console.error("Failed to create tokie - nyaa window:", error);
-    }
-  }
+  // async function createNyaaWindow() {
+  //   try {
+  //     await invoke("create_nyaa_window");
+  //   } catch (error) {
+  //     console.error("Failed to create tokie - nyaa window:", error);
+  //   }
+  // }
 
-  onMount(async () => {
-    await createNyaaWindow();
-  });
+  // onMount(async () => {
+  //    await createNyaaWindow();
+  // });
 </script>
 
-<div class="hero h-full">
+<!-- Iframe goes here -->
+<iframe
+  id="nyaa-iframe"
+  title="Nyaa"
+  src="https://nyaa.si"
+  class="h-full w-full border-none"
+></iframe>
+
+<!-- <div class="hero h-full">
   <div class="hero-content text-center">
     <div class="max-w-2xl px-6">
       <div class="flex justify-center">
@@ -39,4 +47,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
