@@ -30,7 +30,8 @@ pub fn run() {
             watch_player_shutdown,
             create_anilist_webview,
             create_nyaa_webview,
-            toggle_webview
+            toggle_webview,
+            create_child_webview
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -192,6 +193,36 @@ async fn create_nyaa_webview(app_handle: tauri::AppHandle) -> Result<(), String>
             )
             .auto_resize(),
             tauri::LogicalPosition::new(70., 0.),
+            tauri::LogicalSize::new(main_window_size.width - 70, main_window_size.height),
+        )
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn create_child_webview(
+    app_handle: tauri::AppHandle,
+    service_name: String,
+    service_url: String,
+) -> Result<(), String> {
+    let main_window = app_handle.get_window("main").unwrap();
+    let main_window_size = main_window.outer_size().map_err(|e| e.to_string())?;
+    let webview_name = format!("{}_webview", service_name);
+
+    let already_exists = main_window.get_webview(&webview_name);
+    if already_exists.is_some() {
+        return Ok(());
+    }
+
+    let _nyaa_webview = main_window
+        .add_child(
+            tauri::webview::WebviewBuilder::new(
+                webview_name,
+                tauri::WebviewUrl::External(Url::parse(&service_url).unwrap()),
+            )
+            .auto_resize(),
+            tauri::LogicalPosition::new(60., 0.),
             tauri::LogicalSize::new(main_window_size.width - 70, main_window_size.height),
         )
         .map_err(|e| e.to_string())?;
