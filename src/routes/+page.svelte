@@ -1,12 +1,20 @@
 <script lang="ts">
   import ContinueWatching from "../components/ContinueWatching.svelte";
-  import VideoPlayer from "../components/VideoPlayer.svelte";
-
+  // import VideoPlayer from "../components/VideoPlayer.svelte";
   import { onMount } from "svelte";
-  import { webviewsToHide } from "$lib/utils";
+  import { fetchMediaDirectoryStructure, webviewsToHide } from "$lib/utils";
 
   onMount(async () => {
-    await webviewsToHide("all"); // doesn't matter what you pass here it should hide all other webviews except main
+    try {
+      // Hide all other webviews except the main one
+      await webviewsToHide("all");
+
+      // Fetch directory structure
+      let directoryStructure = await fetchMediaDirectoryStructure();
+      console.log("Fetched Directory Structure:", directoryStructure);
+    } catch (error) {
+      console.error("Error during onMount:", error);
+    }
   });
 </script>
 

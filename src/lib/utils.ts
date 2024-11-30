@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import { getAllWebviews, Webview } from "@tauri-apps/api/webview";
+import { getAllWebviews } from "@tauri-apps/api/webview";
 
 export async function createChildWebview(name: string, url: string) {
   const webviewLabel = `${name}_webview`;
@@ -43,5 +43,26 @@ export async function webviewsToHide(skip_webview: string) {
       webviewLabel: webview.label,
       toggleMode: "hide",
     });
+  }
+}
+
+export async function fetchMediaDirectoryStructure(): Promise<any> {
+  let path = localStorage.getItem("savedAnimePath");
+
+  if (!path) {
+    console.error(
+      "Failed to fetch directory structure - savedAnimePath not configured."
+    );
+    return "";
+  }
+
+  try {
+    const structure = await invoke("wrap_read_media_directory_structure", {
+      rootAnimePath: path,
+    });
+    return structure;
+  } catch (error) {
+    console.error("Failed to fetch directory structure:", error);
+    return "";
   }
 }
