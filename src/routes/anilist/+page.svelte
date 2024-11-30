@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { createChildWebview } from "$lib/utils";
+  import { createChildWebview2 } from "$lib/utils";
 
   onMount(async () => {
-    await createChildWebview("anilist");
+    await createChildWebview2("anilist", "https://anilist.co/");
   });
 </script>
 
