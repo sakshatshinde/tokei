@@ -28,8 +28,6 @@ pub fn run() {
             init_player,
             quit_player,
             watch_player_shutdown,
-            create_anilist_webview,
-            create_nyaa_webview,
             toggle_webview,
             create_child_webview
         ])
@@ -132,31 +130,6 @@ async fn watch_player_shutdown(state: tauri::State<'_, PlayerState>) -> Result<(
 }
 
 #[tauri::command]
-async fn create_anilist_webview(app_handle: tauri::AppHandle) -> Result<(), String> {
-    let main_window = app_handle.get_window("main").unwrap();
-    let main_window_size = main_window.outer_size().map_err(|e| e.to_string())?;
-
-    let already_exists = main_window.get_webview("anilist_webview");
-    if already_exists.is_some() {
-        return Ok(());
-    }
-
-    let _anilist_webview = main_window
-        .add_child(
-            tauri::webview::WebviewBuilder::new(
-                "anilist_webview",
-                tauri::WebviewUrl::External(Url::parse("https://anilist.co/home").unwrap()),
-            )
-            .auto_resize(),
-            tauri::LogicalPosition::new(70., 0.),
-            tauri::LogicalSize::new(main_window_size.width - 70, main_window_size.height),
-        )
-        .map_err(|e| e.to_string())?;
-
-    Ok(())
-}
-
-#[tauri::command]
 fn toggle_webview(
     app_handle: tauri::AppHandle,
     webview_label: String,
@@ -176,31 +149,6 @@ fn toggle_webview(
 }
 
 #[tauri::command]
-async fn create_nyaa_webview(app_handle: tauri::AppHandle) -> Result<(), String> {
-    let main_window = app_handle.get_window("main").unwrap();
-    let main_window_size = main_window.outer_size().map_err(|e| e.to_string())?;
-
-    let already_exists = main_window.get_webview("nyaa_webview");
-    if already_exists.is_some() {
-        return Ok(());
-    }
-
-    let _nyaa_webview = main_window
-        .add_child(
-            tauri::webview::WebviewBuilder::new(
-                "nyaa_webview",
-                tauri::WebviewUrl::External(Url::parse("https://nyaa.si/").unwrap()),
-            )
-            .auto_resize(),
-            tauri::LogicalPosition::new(70., 0.),
-            tauri::LogicalSize::new(main_window_size.width - 70, main_window_size.height),
-        )
-        .map_err(|e| e.to_string())?;
-
-    Ok(())
-}
-
-#[tauri::command]
 async fn create_child_webview(
     app_handle: tauri::AppHandle,
     service_name: String,
@@ -215,7 +163,7 @@ async fn create_child_webview(
         return Ok(());
     }
 
-    let _nyaa_webview = main_window
+    let _child_webview = main_window
         .add_child(
             tauri::webview::WebviewBuilder::new(
                 webview_name,
@@ -223,28 +171,9 @@ async fn create_child_webview(
             )
             .auto_resize(),
             tauri::LogicalPosition::new(60., 0.),
-            tauri::LogicalSize::new(main_window_size.width - 70, main_window_size.height),
+            tauri::LogicalSize::new(main_window_size.width - 60, main_window_size.height),
         )
         .map_err(|e| e.to_string())?;
 
     Ok(())
 }
-
-// #[tauri::command]
-// async fn create_subsplease_window(app_handle: tauri::AppHandle) -> Result<(), String> {
-//     let _subsplease_window = tauri::WebviewWindowBuilder::new(
-//         &app_handle,
-//         "subsplease_window".to_string(),
-//         tauri::WebviewUrl::External(Url::parse("https://subsplease.org/").unwrap()),
-//     )
-//     .min_inner_size(1280., 720.)
-//     .title("Tokei - Subsplease")
-//     .build()
-//     .map_err(|e| e.to_string())?;
-
-//     Ok(())
-// }
-
-// async fn return_anime_list() {
-//     todo!()
-// }
