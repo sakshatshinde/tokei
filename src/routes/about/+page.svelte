@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { webviewsToHide } from "../../lib/utils";
+  import { webviewsToHide } from "$lib/utils";
 
   onMount(async () => {
     await webviewsToHide("all"); // doesn't matter what you pass here it should hide all other webviews except main

@@ -2,7 +2,7 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-  import { webviewsToHide } from "../../lib/utils";
+  import { webviewsToHide } from "$lib/utils";
 
   export let onSelect: ((path: string) => void) | undefined = undefined;
 
