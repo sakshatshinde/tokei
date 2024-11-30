@@ -7,7 +7,7 @@
   });
 </script>
 
-<div class="hero h-full">
+<!-- <div class="hero h-full">
   <div class="hero-content text-center">
     <div class="max-w-2xl px-6">
       <div class="flex justify-center">
@@ -37,4 +37,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

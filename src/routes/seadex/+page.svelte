@@ -13,5 +13,5 @@
   title="Seadex"
   src="https://releases.moe/"
   class="h-full w-full border-none"
-  style="overflow: hidden;"
+  style="overflow: hidden"
 ></iframe>
