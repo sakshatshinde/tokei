@@ -1,17 +1,9 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
-
-  async function createAnilistWindow() {
-    try {
-      await invoke("create_anilist_window");
-    } catch (error) {
-      console.error("Failed to create tokie - anilist window:", error);
-    }
-  }
+  import { createChildWebview } from "../../lib/utils";
 
   onMount(async () => {
-    await createAnilistWindow();
+    await createChildWebview("anilist");
   });
 </script>
 

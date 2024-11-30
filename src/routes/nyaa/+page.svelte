@@ -1,54 +1,11 @@
 <script lang="ts">
-  // import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
+  import { createChildWebview } from "../../lib/utils";
 
-  // async function createNyaaWindow() {
-  //   try {
-  //     await invoke("create_nyaa_window");
-  //   } catch (error) {
-  //     console.error("Failed to create tokie - nyaa window:", error);
-  //   }
-  // }
-
-  let showToast = false;
-
-  // Show toast for a few seconds when the page loads
-  onMount(() => {
-    showToast = true;
-    setTimeout(() => {
-      showToast = false;
-    }, 5000); // Toast duration: 5 seconds
+  onMount(async () => {
+    await createChildWebview("nyaa");
   });
 </script>
-
-<!-- Iframe goes here -->
-<iframe
-  id="nyaa-iframe"
-  title="Nyaa"
-  src="https://nyaa.si"
-  class="h-full w-full border-none"
-></iframe>
-
-<div class="toast toast-top p-12">
-  {#if showToast}
-    <div class="alert alert-warning">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-        />
-      </svg>
-      <span class="font-bold">Login is not allowed</span>
-    </div>
-  {/if}
-</div>
 
 <!-- <div class="hero h-full">
   <div class="hero-content text-center">

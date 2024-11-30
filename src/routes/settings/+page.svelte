@@ -2,6 +2,7 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
+  import { webviewsToHide } from "../../lib/utils";
 
   export let onSelect: ((path: string) => void) | undefined = undefined;
 
@@ -10,7 +11,8 @@
   let errorhandleQuitPlayer: string;
   let isSelecting = false;
 
-  onMount(() => {
+  onMount(async () => {
+    await webviewsToHide("all"); // doesn't matter what you pass here it should hide all other webviews except main
     const savedAnimePath = localStorage.getItem("savedAnimePath");
     if (savedAnimePath) {
       selectedPath = savedAnimePath;

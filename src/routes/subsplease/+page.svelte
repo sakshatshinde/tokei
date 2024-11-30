@@ -1,18 +1,10 @@
 <script lang="ts">
-  // import { invoke } from "@tauri-apps/api/core";
-  // import { onMount } from "svelte";
+  import { onMount } from "svelte";
+  import { webviewsToHide } from "../../lib/utils";
 
-  // async function createSubspleaseWindow() {
-  //   try {
-  //     await invoke("create_subsplease_window");
-  //   } catch (error) {
-  //     console.error("Failed to create tokie - subsplease window:", error);
-  //   }
-  // }
-
-  // onMount(async () => {
-  //   await createSubspleaseWindow();
-  // });
+  onMount(async () => {
+    await webviewsToHide("all"); // doesn't matter what you pass here it should hide all other webviews except main
+  });
 </script>
 
 <!-- Iframe goes here -->
