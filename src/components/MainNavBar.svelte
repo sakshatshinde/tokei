@@ -36,7 +36,7 @@
 </script>
 
 <div class="flex h-screen w-15">
-  <ul class="menu menu-vertical bg-base-300">
+  <ul class="menu menu-vertical">
     <li>
       <a href="/" aria-label="Main">
         <svg
@@ -103,6 +103,15 @@
       <a href="/seadex" aria-label="Seadex">
         <!-- <span class="font-semibold">N</span> -->
         <img src="https://releases.moe/favicon.png" alt="S" class="h-5 w-5" />
+      </a>
+    </li>
+    <li>
+      <a href="/qbittorrent" aria-label="qbittorrent">
+        <img
+          src="https://raw.githubusercontent.com/qbittorrent/qBittorrent/refs/heads/master/src/icons/qbittorrent.ico"
+          alt="qB"
+          class="h-5 w-5"
+        />
       </a>
     </li>
     <div class="mt-auto">
