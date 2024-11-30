@@ -1,33 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { getAllWebviews, Webview } from "@tauri-apps/api/webview";
 
-export async function createChildWebview(name: string) {
-  const webviewLabel = `${name}_webview`;
-  const rustSideFunction = `create_${webviewLabel}`;
-  try {
-    // First, check if the webview already exists
-    const webviews = await getAllWebviews();
-    const webviewExists = webviews.some(
-      (webview) => webview.label === webviewLabel
-    );
-
-    if (!webviewExists) {
-      await invoke(rustSideFunction);
-    } else {
-      await webviewsToHide(webviewLabel); // Hide otherwebviews except main and current webview
-
-      // If it exists, show the existing webview
-      await invoke("toggle_webview", {
-        webviewLabel: webviewLabel,
-        toggleMode: "show",
-      });
-    }
-  } catch (error) {
-    console.error(`Failed to create tokie - ${webviewLabel} webview:`, error);
-  }
-}
-
-export async function createChildWebview2(name: string, url: string) {
+export async function createChildWebview(name: string, url: string) {
   const webviewLabel = `${name}_webview`;
 
   try {
