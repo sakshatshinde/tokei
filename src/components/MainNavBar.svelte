@@ -114,6 +114,15 @@
         />
       </a>
     </li>
+    <li>
+      <a href="/myanimelist" aria-label="Myanimelist">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/7/7a/MyAnimeList_Logo.png"
+          alt="MAL"
+          class="h-5 w-5"
+        />
+      </a>
+    </li>
     <div class="mt-auto">
       <li>
         <a href="/about" aria-label="About">
