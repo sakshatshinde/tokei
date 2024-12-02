@@ -9,3 +9,4 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 src-tauri/internal_mpv.log
+src-tauri/libmpv-2.dll
