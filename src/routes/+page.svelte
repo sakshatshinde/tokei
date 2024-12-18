@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ContinueWatching from "../components/ContinueWatching.svelte";
   // import VideoPlayer from "../components/VideoPlayer.svelte";
   import { onMount } from "svelte";
   import { fetchMediaDirectoryStructure, webviewsToHide } from "$lib/utils";
@@ -17,7 +16,5 @@
     }
   });
 </script>
-
-<ContinueWatching />
 
 <!-- <VideoPlayer src="D:/Downloads/bun33s.mp4" /> -->
