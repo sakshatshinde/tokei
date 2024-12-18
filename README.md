@@ -2,6 +2,22 @@
 
 Your ultimate window to all things anime
 
+### Integrations
+
+Anilist Integration
+
+![{41936B04-21FA-4DAC-BA7F-84CE16FEE0DB}](https://github.com/user-attachments/assets/03ae0a31-ff0e-4ec6-bb64-157ada67b8eb)
+
+
+Seadex integration
+
+![image](https://github.com/user-attachments/assets/ba86310b-7959-414c-997a-329689a6c51e)
+
+qbit WebUI integration
+
+![image](https://github.com/user-attachments/assets/3e2e5524-168f-4574-863a-46eec952c670)
+
+
 ## Dev env setup
 
 Recommended IDE Setup \
