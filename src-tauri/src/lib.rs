@@ -273,6 +273,7 @@ fn read_media_directory_structure(
 
     for result in WalkDir::new(&root_anime_path)
         .sort(true)
+        .skip_hidden(true)
         .follow_links(true)
         .into_iter()
     {

@@ -53,7 +53,7 @@ export async function fetchMediaDirectoryStructure(): Promise<any> {
     console.error(
       "Failed to fetch directory structure - savedAnimePath not configured."
     );
-    return "";
+    return;
   }
 
   try {
@@ -63,6 +63,6 @@ export async function fetchMediaDirectoryStructure(): Promise<any> {
     return structure;
   } catch (error) {
     console.error("Failed to fetch directory structure:", error);
-    return "";
+    return;
   }
 }
