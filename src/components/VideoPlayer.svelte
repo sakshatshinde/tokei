@@ -31,9 +31,13 @@
   }
 
   onMount(async () => {
+    await watchPlayerShutdown();
     if (src) {
       await initPlayer(src);
     }
-    await watchPlayerShutdown();
+  });
+
+  onDestroy(async () => {
+    await invoke("quit_player");
   });
 </script>
