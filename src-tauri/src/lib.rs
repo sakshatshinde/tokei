@@ -76,8 +76,11 @@ async fn init_player(path: String, state: tauri::State<'_, PlayerState>) -> Resu
     mpv.set_property("log-file", "internal_mpv.log")
         .map_err(|e| e.to_string())?;
 
-    let quoted_path = format!("\"{}\"", path);
-    mpv.command("loadfile", &[&quoted_path, "append-play"])
+    // let quoted_path = format!("\"{}\"", path);
+    // Properly escape the file path manually
+    let escaped_path = escape_path(&path);
+
+    mpv.command("loadfile", &[&escaped_path, "append-play"])
         .map_err(|e| e.to_string())?;
 
     let mut guard = state.0.lock().unwrap();
@@ -303,7 +306,7 @@ fn read_media_directory_structure(
                 if let Some(parent_dir) = subdirectory_map.get_mut(parent_path) {
                     parent_dir
                         .files
-                        .push(entry.file_name().to_string_lossy().to_string());
+                        .push(entry_path.to_string_lossy().to_string());
                 }
             }
         }
@@ -325,9 +328,23 @@ fn read_media_directory_structure(
     Ok(root_structure)
 }
 
+const ELIGIBLE_FILES: &'static [&'static str] = &[
+    "mp4", "avi", "mov", "mkv", "wmv", "flv", "webm", "vob", "ogv", "m4v", "3gp", "3g2",
+];
+
 fn is_video_file(extension: &str) -> bool {
-    vec![
-        "mp4", "avi", "mov", "mkv", "wmv", "flv", "webm", "vob", "ogv", "m4v", "3gp", "3g2",
-    ]
-    .contains(&extension)
+    ELIGIBLE_FILES.contains(&extension)
+}
+
+fn escape_path(path: &str) -> String {
+    let mut escaped = String::from("\""); // Start with a double-quote for full path encapsulation
+    for c in path.chars() {
+        match c {
+            '\\' => escaped.push_str("\\\\"), // Escape backslashes
+            '"' => escaped.push_str("\\\""),  // Escape quotes
+            _ => escaped.push(c),             // Leave other characters unchanged
+        }
+    }
+    escaped.push('\"'); // End with a double-quote
+    escaped
 }
