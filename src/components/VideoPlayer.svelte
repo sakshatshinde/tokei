@@ -4,9 +4,10 @@
 
   export let src: string | undefined;
 
+  let currentSrc: string | undefined = src; // Track the current source
+
   async function initPlayer(path: string) {
     try {
-      // Pass the container_id properly
       await invoke("init_player", { path });
     } catch (error) {
       console.error("Failed to initialize MPV:", error);
@@ -21,14 +22,18 @@
     }
   }
 
+  // Use the reactive statement in Svelte 5 to react to changes in `src`
+  $: {
+    if (src && src !== currentSrc) {
+      currentSrc = src;
+      initPlayer(src);
+    }
+  }
+
   onMount(async () => {
     if (src) {
       await initPlayer(src);
     }
     await watchPlayerShutdown();
-  });
-
-  onDestroy(() => {
-    // Cleanup if needed
   });
 </script>
